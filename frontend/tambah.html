@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Aplikasi Mahasiswa</title>
+    </head>
+    <body>
+        <h1>Formulir Tambah Data</h1>
+        NIM : <input type="text" id="nim" /><br>
+        NAMA : <input type="text" id="nama" /><br>
+        KELAS : <input type="text" id="kelas" /><br>
+        <button id="simpan">Simpan</button>
+
+        <script>
+            var btnSimpan = document.getElementById("simpan");
+            btnSimpan.onclick = function(evt) {
+                var data = new Object();
+                data.nim = document.getElementById("nim").value;
+                data.nama = document.getElementById("nama").value;
+                data.kelas = document.getElementById("kelas").value;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "../backend/tambah.php", true);
+                xhr.send(JSON.stringify(data));
+                xhr.onreadystatechange = function() {
+                    // console.log(this.responseText);
+                    var result = JSON.parse(this.responseText);
+                    // alert(result.status);
+                    if(result.status == "success") {
+                        alert("Simpan data berhasil");
+                        window.location.href="index.html";
+                    } else {
+                        alert("Simpan data GAGAL");
+                    }
+                }
+                xhr.onerror = function() {
+                    alert("Simpan Data GAGAL");
+                }
+            }
+        </script>
+    </body>
+</html>

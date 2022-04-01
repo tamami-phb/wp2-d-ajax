@@ -4,6 +4,7 @@
     </head>
     <body>
         <h1>Aplikasi Mahasiswa</h1>
+        <button id="tambah">Tambah</button>
         <table border="1">
             <thead>
                 <tr>
@@ -17,7 +18,7 @@
         </table>
 <script>
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "http://localhost/backend/list_data.php", true);
+    xhttp.open("GET", "../backend/list_data.php", true);
     xhttp.send();
     xhttp.onload = function() {
         const data = JSON.parse(this.responseText);
@@ -30,6 +31,11 @@
                 "</tr>";
         }
         document.getElementById("isi").innerHTML = result;
+    }
+
+    var btnTambah = document.getElementById("tambah");
+    btnTambah.onclick = function(evt) {
+        window.location.href = "tambah.html";
     }
 </script>        
     </body>
