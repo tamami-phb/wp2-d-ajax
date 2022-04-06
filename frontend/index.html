@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Aplikasi Mahasiswa</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
         <h1>Aplikasi Mahasiswa</h1>
@@ -17,26 +18,65 @@
             </tbody>
         </table>
 <script>
-    const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "../backend/list_data.php", true);
-    xhttp.send();
-    xhttp.onload = function() {
-        const data = JSON.parse(this.responseText);
-        result = "";
-        for(i=0; i<data.length; i++) {
-            result += "<tr>" + 
-                "<td>" + data[i].nim + "</td>" +
-                "<td>" + data[i].nama + "</td>" +
-                "<td>" + data[i].kelas + "</td>" +
-                "</tr>";
-        }
-        document.getElementById("isi").innerHTML = result;
-    }
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.open("GET", "../backend/list_data.php", true);
+    // xhttp.send();
+    // xhttp.onload = function() {
+    //     const data = JSON.parse(this.responseText);
+    //     result = "";
+    //     for(i=0; i<data.length; i++) {
+    //         result += "<tr>" + 
+    //             "<td>" + data[i].nim + "</td>" +
+    //             "<td>" + data[i].nama + "</td>" +
+    //             "<td>" + data[i].kelas + "</td>" +
+    //             '<td><button class="hapus" nim="' + data[i].nim + '">Hapus</button>' +
+    //             "</tr>";
+    //     }
+    //     document.getElementById("isi").innerHTML = result;
+    // }
+    $(document).ready(function() {
+        $.ajax({
+            url: "../backend/list_data.php",
+            type: "GET",
+            cache: false,
+            success: function(resp) {
+                data = JSON.parse(resp);
+                result = "";
+                for(i=0; i<data.length; i++) {
+                    console.log(data[i].nim + "\n");
+                    result += "<tr>" +
+                      "<td>" + data[i].nim + "</td>" +
+                      "<td>" + data[i].nama + "</td>" +
+                      "<td>" + data[i].kelas + "</td>" + 
+                      '<td><button id="hapus" nim="' + data[i].nim + '">Hapus</button>' +
+                      "</tr>";
+                }
+                $('#isi').html(result);
+            }
+        });
+    });
 
     var btnTambah = document.getElementById("tambah");
     btnTambah.onclick = function(evt) {
         window.location.href = "tambah.html";
     }
+
+    $(document).on("click", "#hapus", function() {
+        console.log($(this).attr("nim"));
+        $.ajax({
+            url: "../backend/hapus.php",
+            type: "GET", 
+            data: {
+                nim: $(this).attr("nim")
+            },
+            success: function(resp) {
+                console.log(resp);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
 </script>        
     </body>
 </html>
