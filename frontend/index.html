@@ -64,13 +64,20 @@
     $(document).on("click", "#hapus", function() {
         console.log($(this).attr("nim"));
         $.ajax({
-            url: "../backend/hapus.php",
+            url:"../backend/hapus.php",
             type: "GET", 
             data: {
                 nim: $(this).attr("nim")
             },
             success: function(resp) {
                 console.log(resp);
+                respon = JSON.parse(resp);
+                // success
+                if(respon.status == "success") {
+                    window.location.href = "index.html";
+                } else { // fail
+                    alert("Data gagal terhapus");
+                }
             },
             error: function(error) {
                 console.log(error);
