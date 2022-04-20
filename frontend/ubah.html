@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Aplikasi Mahasiswa</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+<body>
+<h3>Form Ubah Data</h3>
+
+<br>
+NIM : <input id="nim" readonly><br>
+NAMA : <input id="nama"><br>
+KELAS : <input id="kelas"><br>
+<button id="simpan">Simpan</button>
+
+<script>
+    var param = window.location.search;
+    var urlParam = new URLSearchParams(param);
+    var nim = urlParam.get("nim");
+    console.log(nim);
+    var data = new Object();
+    data.nim = nim;
+    
+    var jsonData = JSON.stringify(data);
+    $.post("../backend/get-data-by-nim.php", 
+      jsonData, 
+      function(resp) {
+        console.log(resp);
+        var dataDetail = JSON.parse(resp);
+        $("#nim").val(dataDetail.nim);
+        $("#nama").val(dataDetail.nama);
+        $("#kelas").val(dataDetail.kelas);
+      }
+    );
+
+    $(document).on('click', "#simpan", function() {
+        var mhs = new Object();
+        mhs.nim = nim;
+        mhs.nama = $("#nama").val;
+        mhs.kelas = $("#kelas").val;
+
+        
+    });
+</script>
+</body>
+</html>

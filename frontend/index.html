@@ -48,7 +48,8 @@
                       "<td>" + data[i].nim + "</td>" +
                       "<td>" + data[i].nama + "</td>" +
                       "<td>" + data[i].kelas + "</td>" + 
-                      '<td><button id="hapus" nim="' + data[i].nim + '">Hapus</button>' +
+                      '<td><button id="hapus" nim="' + data[i].nim + '">Hapus</button></td>' +
+                      '<td><button id="ubah" nim="' + data[i].nim + '">Ubah</button></td>' +
                       "</tr>";
                 }
                 $('#isi').html(result);
@@ -60,6 +61,10 @@
     btnTambah.onclick = function(evt) {
         window.location.href = "tambah.html";
     }
+
+    $(document).on('click', '#ubah', function() {
+       window.location.href = "ubah.html?nim=" + $(this).attr("nim"); 
+    });
 
     $(document).on("click", "#hapus", function() {
         console.log($(this).attr("nim"));
